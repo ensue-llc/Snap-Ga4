@@ -1,0 +1,19 @@
+{
+    "name": "ensue/analytics-v4",
+    "description": "Google analytics V4",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ensue\\AnalyticsV4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bipin Maharjan",
+            "email": "bipin.maharjan@ensue.us"
+        }
+    ],
+    "require": {
+        "google/analytics-data": "^0.9"
+    }
+}
