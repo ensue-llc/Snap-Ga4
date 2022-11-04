@@ -1,7 +1,8 @@
 <?php
 
-namespace Ensue\GA4\System\ArgsGenerator;
+namespace Ensue\GA4\System\ArgBuilder;
 
+use Ensue\GA4\Exceptions\InvalidConfigurationException;
 use Ensue\GA4\System\FilterFactory;
 use Ensue\GA4\System\OrderByFactory;
 use Google\Analytics\Data\V1beta\DateRange;
@@ -12,7 +13,7 @@ use Google\Analytics\Data\V1beta\FilterExpressionList;
 use Google\Analytics\Data\V1beta\Metric;
 use Google\Analytics\Data\V1beta\OrderBy;
 
-class RequestArgs implements ArgsInterface
+class ArgBuilderRepository implements ArgBuilderInterface
 {
     protected \stdClass $query;
 
@@ -22,7 +23,7 @@ class RequestArgs implements ArgsInterface
         $this->query->args['property'] = 'properties/' . config('ga4.property_id');
     }
 
-    public function builder(): ArgsInterface
+    public function builder(): ArgBuilderRepository
     {
         $this->query = new \stdClass();
         $this->query->args['property'] = 'properties/' . config('ga4.property_id');
@@ -30,14 +31,14 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function propertyId(string $propertyId): ArgsInterface
+    public function propertyId(string $propertyId): ArgBuilderRepository
     {
         $this->query->args['property'] = 'properties/' . $propertyId;
 
         return $this;
     }
 
-    public function dateRange(string $startDate, string $endDate): RequestArgs
+    public function dateRange(string $startDate, string $endDate): ArgBuilderRepository
     {
         $this->query->args['dateRanges'] = [new DateRange([
             'start_date' => $startDate,
@@ -47,7 +48,7 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function dimensions(array $dimensionNames): RequestArgs
+    public function dimensions(array $dimensionNames): ArgBuilderRepository
     {
         $dimensions = [];
         foreach ($dimensionNames as $dimensionName) {
@@ -60,7 +61,7 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function metrics(array $metricNames): RequestArgs
+    public function metrics(array $metricNames): ArgBuilderRepository
     {
         $metrics = [];
         foreach ($metricNames as $metricName) {
@@ -73,7 +74,7 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function dimensionsFilter(array $dimensionsFilter): RequestArgs
+    public function dimensionsFilter(array $dimensionsFilter): ArgBuilderRepository
     {
         $this->query->args['dimensionFilter'] = $this->filter($dimensionsFilter);
 
@@ -136,7 +137,7 @@ class RequestArgs implements ArgsInterface
         return $this->query->args;
     }
 
-    public function multipleDateRange(array $dateRanges): ArgsInterface
+    public function multipleDateRange(array $dateRanges): ArgBuilderRepository
     {
         $dateRangeList = [];
         foreach ($dateRanges as $dateRange) {
@@ -150,33 +151,33 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function limit(int $limit): ArgsInterface
+    public function limit(int $limit): ArgBuilderRepository
     {
         $this->query->args['limit'] = $limit;
 
         return $this;
     }
 
-    public function offset(int $offset): ArgsInterface
+    public function offset(int $offset): ArgBuilderRepository
     {
         $this->query->args['offset'] = $offset;
 
         return $this;
     }
 
-    public function metricFilter(array $metricFilter): ArgsInterface
+    public function metricFilter(array $metricFilter): ArgBuilderRepository
     {
         $this->query->args['metricFilter'] = $this->filter($metricFilter);
 
         return $this;
     }
 
-    public function metricAggregations(array $aggregations): ArgsInterface
+    public function metricAggregations(array $aggregations): ArgBuilderRepository
     {
         $this->query->args['metricAggregations'] = $aggregations;
     }
 
-    public function orderBy(array $orderBy, bool $desc = false): ArgsInterface
+    public function orderBy(array $orderBy, bool $desc = false): ArgBuilderRepository
     {
         //order by can be one of the following: metric, dimension, pivot
         $order = new OrderBy([
@@ -190,14 +191,14 @@ class RequestArgs implements ArgsInterface
         $this->query->args['orderBys'][] = $order;
     }
 
-    public function currencyCode(string $currencyCode): ArgsInterface
+    public function currencyCode(string $currencyCode): ArgBuilderRepository
     {
         $this->query->args['currencyCode'] = $currencyCode;
 
         return $this;
     }
 
-    public function returnPropertyQuota(bool $quota): ArgsInterface
+    public function returnPropertyQuota(bool $quota): ArgBuilderRepository
     {
         $this->query->args['returnPropertyQuota'] = $quota;
 

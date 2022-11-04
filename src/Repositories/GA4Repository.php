@@ -3,7 +3,7 @@
 namespace Ensue\GA4\Repositories;
 
 use Ensue\GA4\Interfaces\GA4Interface;
-use Ensue\GA4\System\ArgsGenerator\RequestArgs;
+use Ensue\GA4\System\ArgBuilder\ArgBuilderInterface;
 use Google\Analytics\Data\V1beta\BetaAnalyticsDataClient;
 use Google\ApiCore\ApiException;
 use Google\ApiCore\ValidationException;
@@ -20,7 +20,7 @@ class GA4Repository implements GA4Interface
     /**
      * @throws ValidationException|JsonException
      */
-    public function __construct(private RequestArgs $args)
+    public function __construct(private ArgBuilderInterface $args)
     {
         $this->client = new BetaAnalyticsDataClient([
             'credentials' => json_decode(file_get_contents(config('ga4.service_account_credentials_json')), true, 512, JSON_THROW_ON_ERROR)

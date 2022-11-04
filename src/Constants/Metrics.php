@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\GA4\Constant;
+namespace Ensue\GA4\Constants;
 
 class Metrics
 {
