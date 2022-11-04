@@ -1,9 +1,9 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System\ArgsGenerator;
+namespace Ensue\GA4\System\ArgsGenerator;
 
-use Ensue\AnalyticsV4\System\FilterFactory;
-use Ensue\AnalyticsV4\System\OrderByFactory;
+use Ensue\GA4\System\FilterFactory;
+use Ensue\GA4\System\OrderByFactory;
 use Google\Analytics\Data\V1beta\DateRange;
 use Google\Analytics\Data\V1beta\Dimension;
 use Google\Analytics\Data\V1beta\Filter;

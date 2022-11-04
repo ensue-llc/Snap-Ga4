@@ -1,6 +1,6 @@
-# Google analytics 4: Data API
+# Google analytics 4: Data API v1
 
-This package intends to provide analytics methods.
+This package intends to provide analytics methods for Data API v1 [Beta Release].
 
 ## Getting Started
 
@@ -9,5 +9,5 @@ This package intends to provide analytics methods.
 Run the following command:
 
 ```bash
-composer require ensue/analytics-v4
+composer require ensue/ga4
 ```

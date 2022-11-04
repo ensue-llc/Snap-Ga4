@@ -1,10 +1,10 @@
 <?php
 
-namespace Ensue\AnalyticsV4;
+namespace Ensue\GA4;
 
 use Illuminate\Support\ServiceProvider;
 
-class Provider extends ServiceProvider
+class GA4Provider extends ServiceProvider
 {
 
     public function register(): void

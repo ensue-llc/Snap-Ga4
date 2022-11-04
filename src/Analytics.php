@@ -1,8 +1,8 @@
 <?php
 
-namespace Ensue\AnalyticsV4;
+namespace Ensue\GA4;
 
-use Ensue\AnalyticsV4\System\ArgsGenerator\RequestArgs;
+use Ensue\GA4\System\ArgsGenerator\RequestArgs;
 use Google\Analytics\Data\V1beta\BatchRunReportsResponse;
 use Google\Analytics\Data\V1beta\BetaAnalyticsDataClient;
 use Google\Analytics\Data\V1beta\RunReportResponse;

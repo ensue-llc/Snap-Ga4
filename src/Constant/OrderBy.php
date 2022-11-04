@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\AnalyticsV4\Constant;
+namespace Ensue\GA4\Constant;
 
 class OrderBy
 {

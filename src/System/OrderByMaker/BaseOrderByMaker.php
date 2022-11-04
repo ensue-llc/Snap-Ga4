@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System\OrderByMaker;
+namespace Ensue\GA4\System\OrderByMaker;
 
 use Google\Analytics\Data\V1beta\OrderBy\DimensionOrderBy;
 use Google\Analytics\Data\V1beta\OrderBy\MetricOrderBy;

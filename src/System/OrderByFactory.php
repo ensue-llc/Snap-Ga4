@@ -1,10 +1,10 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System;
+namespace Ensue\GA4\System;
 
-use Ensue\AnalyticsV4\System\OrderByMaker\DimensionOrderByMaker;
-use Ensue\AnalyticsV4\System\OrderByMaker\MetricOrderByMaker;
-use Ensue\AnalyticsV4\System\OrderByMaker\PivotOrderByMaker;
+use Ensue\GA4\System\OrderByMaker\DimensionOrderByMaker;
+use Ensue\GA4\System\OrderByMaker\MetricOrderByMaker;
+use Ensue\GA4\System\OrderByMaker\PivotOrderByMaker;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class OrderByFactory

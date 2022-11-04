@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System\ArgsGenerator;
+namespace Ensue\GA4\System\ArgsGenerator;
 
 interface ArgsInterface
 {

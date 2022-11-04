@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System\FilterMaker;
+namespace Ensue\GA4\System\FilterMaker;
 
 use Google\Analytics\Data\V1beta\Filter\InListFilter;
 

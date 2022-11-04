@@ -1,11 +1,11 @@
 <?php
 
-namespace Ensue\AnalyticsV4\System;
+namespace Ensue\GA4\System;
 
-use Ensue\AnalyticsV4\System\FilterMaker\BetweenFilterMaker;
-use Ensue\AnalyticsV4\System\FilterMaker\InListFilterMaker;
-use Ensue\AnalyticsV4\System\FilterMaker\NumericFilterMaker;
-use Ensue\AnalyticsV4\System\FilterMaker\StringFilterMaker;
+use Ensue\GA4\System\FilterMaker\BetweenFilterMaker;
+use Ensue\GA4\System\FilterMaker\InListFilterMaker;
+use Ensue\GA4\System\FilterMaker\NumericFilterMaker;
+use Ensue\GA4\System\FilterMaker\StringFilterMaker;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class FilterFactory

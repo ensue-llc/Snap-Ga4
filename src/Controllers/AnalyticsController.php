@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensue\AnalyticsV4\Controllers;
+namespace Ensue\GA4\Controllers;
 
 class AnalyticsController
 {
