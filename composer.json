@@ -1,7 +1,10 @@
 {
     "name": "ensue/ga4",
     "description": "Reporting API for Google analytics V4",
-    "keywords": ["ensue", "analytics"],
+    "keywords": [
+        "ensue",
+        "analytics"
+    ],
     "type": "library",
     "autoload": {
         "psr-4": {
@@ -14,15 +17,22 @@
             "email": "bipin.maharjan@ensue.us"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/LYWL/nicosystem.git"
+        }
+    ],
     "require": {
         "php": "^8.0.2",
-        "laravel/framework": "^9.37",
-        "google/analytics-data": "^0.9"
+        "ensue/nicosystem": "dev-master",
+        "google/analytics-data": "^0.9",
+        "laravel/framework": "^9.37"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Ensue\\GA4\\GA4Provider"
+                "Ensue\\GA4\\GA4ServiceProvider"
             ]
         }
     },
