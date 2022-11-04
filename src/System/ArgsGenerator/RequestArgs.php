@@ -19,25 +19,25 @@ class RequestArgs implements ArgsInterface
     public function __construct()
     {
         $this->query = new \stdClass();
-        $this->query->args['property'] = 'properties/' . config('analyticsV4.property_id');
+        $this->query->args['property'] = 'properties/' . config('ga4.property_id');
     }
 
     public function builder(): ArgsInterface
     {
         $this->query = new \stdClass();
-        $this->query->args['property'] = 'properties/' . config('analyticsV4.property_id');
+        $this->query->args['property'] = 'properties/' . config('ga4.property_id');
 
         return $this;
     }
 
-    public function setPropertyId(string $propertyId): ArgsInterface
+    public function propertyId(string $propertyId): ArgsInterface
     {
         $this->query->args['property'] = 'properties/' . $propertyId;
 
         return $this;
     }
 
-    public function setDateRange(string $startDate, string $endDate): RequestArgs
+    public function dateRange(string $startDate, string $endDate): RequestArgs
     {
         $this->query->args['dateRanges'] = [new DateRange([
             'start_date' => $startDate,
@@ -47,7 +47,7 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function setDimensions(array $dimensionNames): RequestArgs
+    public function dimensions(array $dimensionNames): RequestArgs
     {
         $dimensions = [];
         foreach ($dimensionNames as $dimensionName) {
@@ -60,7 +60,7 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function setMetrics(array $metricNames): RequestArgs
+    public function metrics(array $metricNames): RequestArgs
     {
         $metrics = [];
         foreach ($metricNames as $metricName) {
@@ -73,14 +73,14 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function setDimensionsFilter(array $dimensionsFilter): RequestArgs
+    public function dimensionsFilter(array $dimensionsFilter): RequestArgs
     {
-        $this->query->args['dimensionFilter'] = $this->setFilter($dimensionsFilter);
+        $this->query->args['dimensionFilter'] = $this->filter($dimensionsFilter);
 
         return $this;
     }
 
-    private function setFilter(array $filter): FilterExpression
+    private function filter(array $filter): FilterExpression
     {
         $filterExpression = new FilterExpression();
         if (isset($filter['filter'])) {
@@ -124,7 +124,7 @@ class RequestArgs implements ArgsInterface
         ]);
     }
 
-    public function setKeepEmptyRows(bool $isEmpty = false): static
+    public function keepEmptyRows(bool $isEmpty = false): static
     {
         $this->query->args['keepEmptyRows'] = $isEmpty;
 
@@ -136,7 +136,7 @@ class RequestArgs implements ArgsInterface
         return $this->query->args;
     }
 
-    public function setMultipleDateRange(array $dateRanges): ArgsInterface
+    public function multipleDateRange(array $dateRanges): ArgsInterface
     {
         $dateRangeList = [];
         foreach ($dateRanges as $dateRange) {
@@ -150,33 +150,33 @@ class RequestArgs implements ArgsInterface
         return $this;
     }
 
-    public function setLimit(int $limit): ArgsInterface
+    public function limit(int $limit): ArgsInterface
     {
         $this->query->args['limit'] = $limit;
 
         return $this;
     }
 
-    public function setOffset(int $offset): ArgsInterface
+    public function offset(int $offset): ArgsInterface
     {
         $this->query->args['offset'] = $offset;
 
         return $this;
     }
 
-    public function setMetricFilter(array $metricFilter): ArgsInterface
+    public function metricFilter(array $metricFilter): ArgsInterface
     {
-        $this->query->args['metricFilter'] = $this->setFilter($metricFilter);
+        $this->query->args['metricFilter'] = $this->filter($metricFilter);
 
         return $this;
     }
 
-    public function setMetricAggregations(array $aggregations): ArgsInterface
+    public function metricAggregations(array $aggregations): ArgsInterface
     {
         $this->query->args['metricAggregations'] = $aggregations;
     }
 
-    public function setOrderBy(array $orderBy, bool $desc = false): ArgsInterface
+    public function orderBy(array $orderBy, bool $desc = false): ArgsInterface
     {
         //order by can be one of the following: metric, dimension, pivot
         $order = new OrderBy([
@@ -190,14 +190,14 @@ class RequestArgs implements ArgsInterface
         $this->query->args['orderBys'][] = $order;
     }
 
-    public function setCurrencyCode(string $currencyCode): ArgsInterface
+    public function currencyCode(string $currencyCode): ArgsInterface
     {
         $this->query->args['currencyCode'] = $currencyCode;
 
         return $this;
     }
 
-    public function setReturnPropertyQuota(bool $quota): ArgsInterface
+    public function returnPropertyQuota(bool $quota): ArgsInterface
     {
         $this->query->args['returnPropertyQuota'] = $quota;
 
