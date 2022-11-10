@@ -46,4 +46,20 @@ class MatchType
      * Generated from protobuf enum <code>PARTIAL_REGEXP = 6;</code>
      */
     public const PARTIAL_REGEXP = 'PARTIAL_REGEXP';
+
+    /**
+     * @return string[]
+     */
+    public static function options(): array
+    {
+        return [
+            self::MATCH_TYPE_UNSPECIFIED,
+            self::EXACT,
+            self::BEGINS_WITH,
+            self::ENDS_WITH,
+            self::CONTAINS,
+            self::FULL_REGEXP,
+            self::PARTIAL_REGEXP
+        ];
+    }
 }

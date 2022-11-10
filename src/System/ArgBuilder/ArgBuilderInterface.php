@@ -8,15 +8,15 @@ interface ArgBuilderInterface
 
     public function propertyId(string $propertyId): ArgBuilderInterface;
 
-    public function dateRange(string $startDate, string $endDate): ArgBuilderInterface;
+    public function dateRange(array $dateRange): ArgBuilderInterface;
 
-    public function multipleDateRange(array $dateRanges): ArgBuilderInterface;
+    public function dateRanges(array $dateRanges): ArgBuilderInterface;
 
     public function dimensions(array $dimensionNames): ArgBuilderInterface;
 
     public function metrics(array $metricNames): ArgBuilderInterface;
 
-    public function dimensionsFilter(array $dimensionsFilter): ArgBuilderInterface;
+    public function dimensionFilter(array $dimensionFilter): ArgBuilderInterface;
 
     public function metricFilter(array $metricFilter): ArgBuilderInterface;
 

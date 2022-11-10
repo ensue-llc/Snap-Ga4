@@ -18,4 +18,10 @@ class Dimensions
 
     public const PAGE_TITLE = 'pageTitle';
 
+    public const CITY = 'city';
+
+    public const COUNTRY = 'country';
+
+    public const LINK_URL = 'linkUrl';
+
 }

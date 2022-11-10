@@ -2,7 +2,6 @@
 
 namespace Ensue\GA4\System\ArgBuilder;
 
-use Ensue\GA4\Exceptions\InvalidConfigurationException;
 use Ensue\GA4\System\FilterFactory;
 use Ensue\GA4\System\OrderByFactory;
 use Google\Analytics\Data\V1beta\DateRange;
@@ -38,12 +37,26 @@ class ArgBuilderRepository implements ArgBuilderInterface
         return $this;
     }
 
-    public function dateRange(string $startDate, string $endDate): ArgBuilderRepository
+    public function dateRange(array $dateRange): ArgBuilderRepository
     {
         $this->query->args['dateRanges'] = [new DateRange([
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $dateRange['start_date'],
+            'end_date' => $dateRange['end_date'],
         ])];
+
+        return $this;
+    }
+
+    public function dateRanges(array $dateRanges): ArgBuilderRepository
+    {
+        $dateRangeList = [];
+        foreach ($dateRanges as $dateRange) {
+            $dateRangeList[] = new DateRange([
+                'start_date' => $dateRange['start_date'],
+                'end_date' => $dateRange['end_date'],
+            ]);
+        }
+        $this->query->args['dateRanges'] = $dateRangeList;
 
         return $this;
     }
@@ -74,9 +87,9 @@ class ArgBuilderRepository implements ArgBuilderInterface
         return $this;
     }
 
-    public function dimensionsFilter(array $dimensionsFilter): ArgBuilderRepository
+    public function dimensionFilter(array $dimensionFilter): ArgBuilderRepository
     {
-        $this->query->args['dimensionFilter'] = $this->filter($dimensionsFilter);
+        $this->query->args['dimensionFilter'] = $this->filter($dimensionFilter);
 
         return $this;
     }
@@ -87,22 +100,22 @@ class ArgBuilderRepository implements ArgBuilderInterface
         if (isset($filter['filter'])) {
             $filterExpression->setFilter($this->createFilter($filter['filter']));
         }
-        if (isset($filter['andGroup'])) {
+        if (isset($filter['and_group'])) {
             $filterExpressionList = [];
-            foreach ($filter['andGroup'] as $expression) {
+            foreach ($filter['and_group'] as $expression) {
                 $filterExpressionList[] = $this->createFilterExpression($expression);
             }
             $filterExpression->setAndGroup(new FilterExpressionList(['expressions' => $filterExpressionList]));
         }
-        if (isset($filter['orGroup'])) {
+        if (isset($filter['or_group'])) {
             $filterExpressionList = [];
-            foreach ($filter['orGroup'] as $expression) {
+            foreach ($filter['or_group'] as $expression) {
                 $filterExpressionList[] = $this->createFilterExpression($expression);
             }
             $filterExpression->setOrGroup(new FilterExpressionList(['expressions' => $filterExpressionList]));
         }
-        if (isset($filter['notExpression'])) {
-            $filterExpression->setNotExpression($this->createFilterExpression($filter['notExpression']));
+        if (isset($filter['not_expression'])) {
+            $filterExpression->setNotExpression($this->createFilterExpression($filter['not_expression']));
         }
 
         return $filterExpression;
@@ -135,20 +148,6 @@ class ArgBuilderRepository implements ArgBuilderInterface
     public function getArgs(): array
     {
         return $this->query->args;
-    }
-
-    public function multipleDateRange(array $dateRanges): ArgBuilderRepository
-    {
-        $dateRangeList = [];
-        foreach ($dateRanges as $dateRange) {
-            $dateRangeList[] = new DateRange([
-                'start_date' => $dateRange['start_date'],
-                'end_date' => $dateRange['end_date'],
-            ]);
-        }
-        $this->query->args['dateRanges'] = $dateRangeList;
-
-        return $this;
     }
 
     public function limit(int $limit): ArgBuilderRepository

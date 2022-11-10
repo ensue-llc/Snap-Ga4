@@ -11,4 +11,17 @@ class FilterExpression
     public const NUMERIC_FILTER = 'numeric_filter';
 
     public const BETWEEN_FILTER = 'between_filter';
+
+    /**
+     * @return string[]
+     */
+    public static function options(): array
+    {
+        return [
+            self::STRING_FILTER,
+            self::IN_LIST_FILTER,
+            self::NUMERIC_FILTER,
+            self::BETWEEN_FILTER
+        ];
+    }
 }

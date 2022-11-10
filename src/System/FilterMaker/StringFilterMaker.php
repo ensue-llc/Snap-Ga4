@@ -15,7 +15,9 @@ class StringFilterMaker extends BaseFilterMaker
 
     public function setExpression(array $data): StringFilterMaker
     {
-        $this->filter->setMatchType(MatchType::value($data['match_type']));
+        if (isset($data['match_type'])) {
+            $this->filter->setMatchType(MatchType::value($data['match_type']));
+        }
         $this->filter->setValue($data['value']);
         if(isset($data['case_sensitive'])) {
             $this->filter->setCaseSensitive($data['case_sensitive']);
