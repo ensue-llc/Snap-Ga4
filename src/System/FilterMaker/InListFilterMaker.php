@@ -12,13 +12,13 @@ class InListFilterMaker extends BaseFilterMaker
         $this->filter = new InListFilter();
     }
 
-    public function setExpression(array $data): InListFilterMaker
+    public function getExpressionObject(array $data): InListFilter
     {
         $this->filter->setValues($data['values']);
         if(isset($data['case_sensitive'])) {
             $this->filter->setCaseSensitive($data['case_sensitive']);
         }
 
-        return $this;
+        return $this->filter;
     }
 }

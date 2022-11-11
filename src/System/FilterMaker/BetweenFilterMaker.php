@@ -12,12 +12,12 @@ class BetweenFilterMaker extends BaseFilterMaker
         $this->filter = new BetweenFilter();
     }
 
-    public function setExpression(array $data): BetweenFilterMaker
+    public function getExpressionObject(array $data): BetweenFilter
     {
         $this->filter->setFromValue($this->setNumericValue($data['from']['int64'], $data['from']['double']));
         $this->filter->setToValue($this->setNumericValue($data['to']['int64'], $data['to']['double']));
 
-        return $this;
+        return $this->filter;
     }
 
     private function setNumericValue(string $int64Value, int $doubleValue): NumericValue

@@ -13,7 +13,7 @@ class StringFilterMaker extends BaseFilterMaker
         $this->filter = new StringFilter();
     }
 
-    public function setExpression(array $data): StringFilterMaker
+    public function getExpressionObject(array $data): StringFilter
     {
         if (isset($data['match_type'])) {
             $this->filter->setMatchType(MatchType::value($data['match_type']));
@@ -23,6 +23,6 @@ class StringFilterMaker extends BaseFilterMaker
             $this->filter->setCaseSensitive($data['case_sensitive']);
         }
 
-        return $this;
+        return $this->filter;
     }
 }

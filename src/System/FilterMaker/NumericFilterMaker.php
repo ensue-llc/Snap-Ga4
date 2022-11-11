@@ -13,12 +13,12 @@ class NumericFilterMaker extends BaseFilterMaker
         $this->filter = new NumericFilter();
     }
 
-    public function setExpression(array $data): NumericFilterMaker
+    public function getExpressionObject(array $data): NumericFilter
     {
         $this->filter->setOperation(Operation::value($data['operation']));
         $this->filter->setValue($this->setNumericValue($data['value']['int64'], $data['value']['double']));
 
-        return $this;
+        return $this->filter;
     }
 
     private function setNumericValue(string $int64Value, int $doubleValue): NumericValue

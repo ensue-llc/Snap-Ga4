@@ -126,8 +126,7 @@ class ArgBuilderRepository implements ArgBuilderInterface
         return new Filter([
             'field_name' => $expression['field_name'],
             $expression['expression'] => FilterFactory::getFilterMaker($expression['expression'])
-                ->setExpression($expression['expression_data'])
-                ->get()
+                ->getExpressionObject($expression['expression_data'])
         ]);
     }
 
