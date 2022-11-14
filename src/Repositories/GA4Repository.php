@@ -3,7 +3,6 @@
 namespace Ensue\GA4\Repositories;
 
 use Ensue\GA4\Constants\FilterExpression;
-use Ensue\GA4\Constants\MatchType;
 use Ensue\GA4\Interfaces\GA4Interface;
 use Ensue\GA4\System\ArgBuilder\ArgBuilderInterface;
 use Google\Analytics\Data\V1beta\BetaAnalyticsDataClient;
@@ -41,6 +40,46 @@ class GA4Repository implements GA4Interface
         return $this->parseResult($args, $result);
     }
 
+    public function validateRequest(array $inputs): array
+    {
+        return Validator::validate($inputs, [
+            'date_range' => 'required',
+            'date_range.start_date' => 'required|date_format:Y-m-d',
+            'date_range.end_date' => 'required|date_format:Y-m-d|after:date_range.start_date',
+
+            'dimensions' => 'nullable|required_without:metrics|array|max:9',
+            'dimensions.*' => 'nullable|string|distinct',
+
+            'metrics' => 'nullable|required_without:dimensions|array|max:10',
+            'metrics.*' => 'nullable|string|distinct',
+
+            'dimension_filter' => 'nullable|array',
+
+            'dimension_filter.filter' => 'nullable|array',
+            'dimension_filter.filter.field_name' => 'required|string',
+            'dimension_filter.filter.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
+            'dimension_filter.filter.expression_data' => 'required|array',
+
+            'dimension_filter.and_group' => 'nullable|array',
+            'dimension_filter.and_group.*.field_name' => 'required|string',
+            'dimension_filter.and_group.*.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
+            'dimension_filter.and_group.*.expression_data' => 'required|array',
+
+            'dimension_filter.or_group' => 'nullable|array',
+            'dimension_filter.or_group.*.field_name' => 'required|string',
+            'dimension_filter.or_group.*.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
+            'dimension_filter.or_group.*.expression_data' => 'required|array',
+
+            'dimension_filter.not_expression' => 'nullable|array',
+            'dimension_filter.not_expression.field_name' => 'required|string',
+            'dimension_filter.not_expression.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
+            'dimension_filter.not_expression.expression_data' => 'required|array',
+
+            'limit' => 'nullable|integer|max:1000000',
+            'offset' => 'nullable|integer',
+        ]);
+    }
+
     /**
      * @param array $args
      * @return array
@@ -50,7 +89,7 @@ class GA4Repository implements GA4Interface
         $this->args->builder();
         foreach ($args as $key => $value) {
             $camelKey = Str::camel($key);
-            if(empty($value)) {
+            if (empty($value)) {
                 continue;
             }
             if (method_exists($this->args, $camelKey)) {
@@ -92,50 +131,6 @@ class GA4Repository implements GA4Interface
 
         $result = $this->client->batchRunReports($inputs);
         return [];
-    }
-
-    public function validateRequest(array $inputs): array
-    {
-        return Validator::validate($inputs, [
-            'date_range' => 'required',
-            'date_range.start_date' => 'required|date_format:Y-m-d',
-            'date_range.end_date' => 'required|date_format:Y-m-d|after:date_range.start_date',
-
-            'dimensions' => 'nullable|required_without:metrics|array|max:9',
-            'dimensions.*' => 'nullable|string',
-
-            'metrics' => 'nullable|required_without:dimensions|array',
-            'metrics.*' => 'nullable|string',
-
-            'dimension_filter' => 'nullable|array',
-
-            'dimension_filter.filter' => 'nullable|array',
-            'dimension_filter.filter.field_name' => 'required|string',
-            'dimension_filter.filter.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
-            'dimension_filter.filter.expression_data' => 'required|array',
-            'dimension_filter.filter.expression_data.match_type' => 'nullable|string|in:' . implode(',', MatchType::options()),
-            'dimension_filter.filter.expression_data.value' => 'required|string',
-
-            'dimension_filter.and_group' => 'nullable|array',
-            'dimension_filter.and_group.*.field_name' => 'required|string',
-            'dimension_filter.and_group.*.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
-            'dimension_filter.and_group.*.expression_data' => 'required|array',
-            'dimension_filter.and_group.*.expression_data.match_type' => 'nullable|string|in:' . implode(',', MatchType::options()),
-            'dimension_filter.and_group.*.expression_data.value' => 'required|string',
-
-            'dimension_filter.or_group' => 'nullable|array',
-            'dimension_filter.or_group.*.field_name' => 'required|string',
-            'dimension_filter.or_group.*.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
-            'dimension_filter.or_group.*.expression_data' => 'required|array',
-
-            'dimension_filter.not_expression' => 'nullable|array',
-            'dimension_filter.not_expression.*.field_name' => 'required|string',
-            'dimension_filter.not_expression.*.expression' => 'required|string|in:' . implode(',', FilterExpression::options()),
-            'dimension_filter.not_expression.*.expression_data' => 'required|array',
-
-            'limit' => 'nullable|integer|max:1000000',
-            'offset' => 'nullable|integer',
-        ]);
     }
 
 }

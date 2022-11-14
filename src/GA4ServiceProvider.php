@@ -5,7 +5,7 @@ namespace Ensue\GA4;
 use Ensue\GA4\Interfaces\GA4Interface;
 use Ensue\GA4\Repositories\GA4Repository;
 use Ensue\GA4\System\ArgBuilder\ArgBuilderInterface;
-use Ensue\GA4\System\ArgBuilder\ArgBuilderRepository;
+use Ensue\GA4\System\ArgBuilder\ArgBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class GA4ServiceProvider extends ServiceProvider
@@ -15,7 +15,7 @@ class GA4ServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/ga4.php', 'ga4');
         $this->app->bind(GA4Interface::class, GA4Repository::class);
-        $this->app->bind(ArgBuilderInterface::class, ArgBuilderRepository::class);
+        $this->app->bind(ArgBuilderInterface::class, ArgBuilder::class);
     }
 
     public function boot(): void
