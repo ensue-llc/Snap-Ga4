@@ -6,5 +6,4 @@ interface FilterMakerInterface
 {
     public function getExpressionObject(array $data);
 
-    public function get();
 }

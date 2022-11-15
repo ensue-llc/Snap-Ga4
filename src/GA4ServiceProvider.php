@@ -16,6 +16,9 @@ class GA4ServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/ga4.php', 'ga4');
         $this->app->bind(GA4Interface::class, GA4Repository::class);
         $this->app->bind(ArgBuilderInterface::class, ArgBuilder::class);
+        $this->app->bind('ga4', function ($app) {
+            return new GA4Repository();
+        });
     }
 
     public function boot(): void

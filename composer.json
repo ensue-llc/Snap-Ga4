@@ -17,15 +17,8 @@
             "email": "bipin.maharjan@ensue.us"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://bitbucket.org/LYWL/nicosystem.git"
-        }
-    ],
     "require": {
         "php": "^8.0.2",
-        "ensue/nicosystem": "dev-master",
         "google/analytics-data": "^0.9",
         "laravel/framework": "^9.37"
     },
@@ -33,7 +26,10 @@
         "laravel": {
             "providers": [
                 "Ensue\\GA4\\GA4ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "GA4": "Ensue\\GA4\\Facades\\GA4"
+            }
         }
     },
     "config": {

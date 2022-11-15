@@ -11,13 +11,4 @@ abstract class BaseFilterMaker implements FilterMakerInterface
 {
     protected StringFilter|InListFilter|NumericFilter|BetweenFilter $filter;
 
-    /**
-     * @return StringFilter|InListFilter|NumericFilter|BetweenFilter
-     */
-    public function get(): StringFilter|InListFilter|NumericFilter|BetweenFilter
-    {
-        return $this->filter;
-    }
-
-
 }
