@@ -11,13 +11,13 @@ class DimensionOrderByMaker extends BaseOrderByMaker
         $this->orderBy = new DimensionOrderBy();
     }
 
-    public function setExpression(array $data): DimensionOrderByMaker
+    public function getExpressionObject(array $data): DimensionOrderBy
     {
         $this->orderBy->setDimensionName($data['name']);
         if (isset($data['type'])) {
             $this->orderBy->setOrderType(DimensionOrderBy\OrderType::value($data['type']));
         }
 
-        return $this;
+        return $this->orderBy;
     }
 }

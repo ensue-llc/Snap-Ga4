@@ -181,8 +181,7 @@ class ArgBuilder implements ArgBuilderInterface
         $order = new OrderBy([
             'desc' => $desc,
             $orderBy['expression'] => OrderByFactory::getOrderByMaker($orderBy['expression'])
-                ->setExpression($orderBy['expression_data'])
-                ->get()
+                ->getExpressionObject($orderBy['expression_data'])
         ]);
         $order->setDesc($desc);
 

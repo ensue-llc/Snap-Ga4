@@ -11,7 +11,7 @@ class PivotOrderByMaker extends BaseOrderByMaker
         $this->orderBy = new PivotOrderBy();
     }
 
-    public function setExpression(array $data): PivotOrderByMaker
+    public function getExpressionObject(array $data): PivotOrderBy
     {
         $this->orderBy->setMetricName($data['name']);
         if (isset($data['pivotSelections'])) {
@@ -25,6 +25,6 @@ class PivotOrderByMaker extends BaseOrderByMaker
             $this->orderBy->setPivotSelections($pivotSelections);
         }
 
-        return $this;
+        return $this->orderBy;
     }
 }

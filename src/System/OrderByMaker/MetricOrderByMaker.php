@@ -11,10 +11,10 @@ class MetricOrderByMaker extends BaseOrderByMaker
         $this->orderBy = new MetricOrderBy();
     }
 
-    public function setExpression(array $data): MetricOrderByMaker
+    public function getExpressionObject(array $data): MetricOrderBy
     {
         $this->orderBy->setMetricName($data['name']);
 
-        return $this;
+        return $this->orderBy;
     }
 }

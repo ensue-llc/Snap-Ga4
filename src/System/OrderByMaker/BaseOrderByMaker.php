@@ -10,12 +10,4 @@ abstract class BaseOrderByMaker implements OrderByMakerInterface
 {
     protected PivotOrderBy|MetricOrderBy|DimensionOrderBy $orderBy;
 
-    /**
-     * @return PivotOrderBy|MetricOrderBy|DimensionOrderBy
-     */
-    public function get(): PivotOrderBy|MetricOrderBy|DimensionOrderBy
-    {
-        return $this->orderBy;
-    }
-
 }
