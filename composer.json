@@ -20,7 +20,7 @@
     "require": {
         "php": "^8.0.2",
         "google/analytics-data": "^0.9",
-        "laravel/framework": "^9.37"
+        "laravel/framework": "^8.0"
     },
     "extra": {
         "laravel": {
