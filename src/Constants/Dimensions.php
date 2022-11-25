@@ -4,24 +4,27 @@ namespace Ensue\GA4\Constants;
 
 class Dimensions
 {
-    public const HOSTNAME = 'hostName';
-
-    public const DATE = 'date';
-
+    //Event
     public const EVENT_NAME = 'eventName';
 
+    //Page/Screen
+    public const CONTENT_ID = 'contentId';
+    public const CONTENT_TYPE = 'contentType';
+    public const PAGE_LOCATION = 'pageLocation';
+    public const PAGE_PATH = 'pagePath';
+    public const PAGE_TITLE = 'pageTitle';
+    public const HOSTNAME = 'hostName';
     public const FULL_PAGE_URL = 'fullPageUrl';
 
-    public const PAGE_LOCATION = 'pageLocation';
+    //Time
+    public const DATE = 'date';
 
-    public const PAGE_PATH = 'pagePath';
+    //Video
+    public const VIDEO_PROVIDER = 'videoProvider';
+    public const VIDEO_TITLE = 'videoTitle';
+    public const VIDEO_URL = 'videoUrl';
 
-    public const PAGE_TITLE = 'pageTitle';
-
-    public const CITY = 'city';
-
+    //Geography
     public const COUNTRY = 'country';
-
-    public const LINK_URL = 'linkUrl';
-
+    public const CITY = 'city';
 }

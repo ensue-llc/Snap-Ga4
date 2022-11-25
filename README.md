@@ -27,7 +27,10 @@ GA4_PROPERTY_ID=<YOUR-PROPERTY-ID>
 GA4_CREDENTIALS_JSON_PATH=<FILE-STORED-IN-STORAGE-DIR>
 ```
 
-# Methods
+# Reporting 
+Provide the "client email" the viewer access in your account user management from your admin setting
+
+## Methods
 #### Run Report
 ```
 GA::runReport($inputs);
@@ -39,7 +42,7 @@ Upto 5 reports can be run at a time
 GA::runBatchReport($inputs);
 ```
 
-# Request Body
+## Request Body
 ### Run single report
 Maximum Dimensions allowed: 9 <br/>
 Maximum Metrics allowed: 10

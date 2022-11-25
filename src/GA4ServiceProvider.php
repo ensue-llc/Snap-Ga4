@@ -23,10 +23,8 @@ class GA4ServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'ga4');
         $this->publishes([
             __DIR__ . '/../config/ga4.php' => config_path('ga4.php'),
-            __DIR__ . '/../lang' => $this->app->langPath(),
         ], 'ga4');
     }
 }
