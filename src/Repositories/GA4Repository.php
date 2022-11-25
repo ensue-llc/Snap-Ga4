@@ -10,7 +10,6 @@ use ErrorException;
 use Google\ApiCore\ApiException;
 use Google\ApiCore\ValidationException;
 use Illuminate\Support\Str;
-use JsonException;
 
 class GA4Repository implements GA4Interface
 {
@@ -22,7 +21,7 @@ class GA4Repository implements GA4Interface
     private ArgBuilderInterface $args;
 
     /**
-     * @throws ValidationException|JsonException
+     * @throws ValidationException|\JsonException
      */
     public function __construct()
     {
@@ -50,7 +49,7 @@ class GA4Repository implements GA4Interface
      * @param array $args
      * @return array
      */
-    private function getCompiledArguments(array $args): array
+    protected function getCompiledArguments(array $args): array
     {
         $this->args->builder();
         foreach ($args as $key => $value) {
@@ -66,7 +65,7 @@ class GA4Repository implements GA4Interface
         return $this->args->getArgs();
     }
 
-    private function parseResult(array $inputs, $response): array
+    protected function parseResult(array $inputs, $response): array
     {
         $result = [];
         foreach ($response->getRows() as $row) {
