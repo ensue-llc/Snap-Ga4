@@ -42,7 +42,7 @@ class GA4Repository implements GA4Interface
             $this->client->close();
         }
 
-        return $this->parseResult($args, $response);
+        return $this->parseReportResult($args, $response);
     }
 
     /**
@@ -65,7 +65,7 @@ class GA4Repository implements GA4Interface
         return $this->args->getArgs();
     }
 
-    protected function parseResult(array $inputs, $response): array
+    protected function parseReportResult(array $inputs, $response): array
     {
         $result = [];
         foreach ($response->getRows() as $row) {
@@ -99,10 +99,15 @@ class GA4Repository implements GA4Interface
         } finally {
             $this->client->close();
         }
-        $reports = $response->getReports();
+
+        return $this->parseBatchReportResult($args, $response->getReports());
+    }
+
+    protected function parseBatchReportResult(array $inputs, $response): array
+    {
         $result = [];
-        for ($i = 0; $i < $reports->count(); $i++) {
-            $result[$args[$i]['title']] = $this->parseResult($args[$i], $reports->offsetGet($i));
+        for ($i = 0; $i < $response->count(); $i++) {
+            $result[$inputs[$i]['title']] = $this->parseReportResult($inputs[$i], $response->offsetGet($i));
         }
 
         return $result;
