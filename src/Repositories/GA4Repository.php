@@ -4,29 +4,26 @@ namespace Ensue\GA4\Repositories;
 
 use Ensue\GA4\Interfaces\GA4Interface;
 use Ensue\GA4\System\ArgBuilder\ArgBuilder;
-use Ensue\GA4\System\ArgBuilder\ArgBuilderInterface;
-use Ensue\GA4\System\BaseBetaAnalyticsClient;
-use ErrorException;
+use Ensue\GA4\System\BaseAnalyticsClient;
+use Google\Analytics\Data\V1beta\RunReportResponse;
 use Google\ApiCore\ApiException;
 use Google\ApiCore\ValidationException;
+use Google\Protobuf\Internal\RepeatedField;
 use Illuminate\Support\Str;
 
 class GA4Repository implements GA4Interface
 {
     /**
-     * @var BaseBetaAnalyticsClient
+     * @var BaseAnalyticsClient
      */
-    protected BaseBetaAnalyticsClient $client;
-
-    private ArgBuilderInterface $args;
+    protected BaseAnalyticsClient $client;
 
     /**
      * @throws ValidationException|\JsonException
      */
     public function __construct()
     {
-        $this->args = new ArgBuilder();
-        $this->client = new BaseBetaAnalyticsClient([
+        $this->client = new BaseAnalyticsClient([
             'credentials' => json_decode(file_get_contents(config('ga4.service_account_credentials_json')), true, 512, JSON_THROW_ON_ERROR)
         ]);
     }
@@ -36,11 +33,7 @@ class GA4Repository implements GA4Interface
      */
     public function runReport(array $args): array
     {
-        try {
-            $response = $this->client->runReport($this->getCompiledArguments($args));
-        } finally {
-            $this->client->close();
-        }
+        $response = $this->client->runReport($this->getCompiledArguments($args));
 
         return $this->parseReportResult($args, $response);
     }
@@ -51,21 +44,26 @@ class GA4Repository implements GA4Interface
      */
     protected function getCompiledArguments(array $args): array
     {
-        $this->args->builder();
+        $arg = new ArgBuilder();
         foreach ($args as $key => $value) {
             $camelKey = Str::camel($key);
             if (empty($value)) {
                 continue;
             }
-            if (method_exists($this->args, $camelKey)) {
-                call_user_func_array([$this->args, $camelKey], array_filter([$value]));
+            if (method_exists($arg, $camelKey)) {
+                call_user_func_array([$arg, $camelKey], array_filter([$value]));
             }
         }
 
-        return $this->args->getArgs();
+        return $arg->getArgs();
     }
 
-    protected function parseReportResult(array $inputs, $response): array
+    /**
+     * @param array $inputs
+     * @param RunReportResponse $response
+     * @return array
+     */
+    protected function parseReportResult(array $inputs, RunReportResponse $response): array
     {
         $result = [];
         foreach ($response->getRows() as $row) {
@@ -83,7 +81,7 @@ class GA4Repository implements GA4Interface
     }
 
     /**
-     * @throws ApiException|ErrorException
+     * @throws ApiException|\ErrorException
      */
     public function runBatchReport(array $args): array
     {
@@ -91,19 +89,21 @@ class GA4Repository implements GA4Interface
         foreach ($args as $arg) {
             $requests[] = $this->client->getRunReportRequest($this->getCompiledArguments($arg));
         }
-        try {
-            $response = $this->client->batchRunReports([
-                'requests' => $requests,
-                'property' => 'properties/' . config('ga4.property_id'),
-            ]);
-        } finally {
-            $this->client->close();
-        }
+        $response = $this->client->batchRunReports([
+            'requests' => $requests,
+            'property' => 'properties/' . config('ga4.property_id'),
+        ]);
 
         return $this->parseBatchReportResult($args, $response->getReports());
     }
 
-    protected function parseBatchReportResult(array $inputs, $response): array
+    /**
+     * @param array $inputs
+     * @param RepeatedField $response
+     * @return array
+     * @throws \ErrorException
+     */
+    protected function parseBatchReportResult(array $inputs, RepeatedField $response): array
     {
         $result = [];
         for ($i = 0; $i < $response->count(); $i++) {

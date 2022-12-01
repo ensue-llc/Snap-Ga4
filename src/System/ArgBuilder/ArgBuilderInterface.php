@@ -4,7 +4,7 @@ namespace Ensue\GA4\System\ArgBuilder;
 
 interface ArgBuilderInterface
 {
-    public function builder(): ArgBuilderInterface;
+    public function builder();
 
     public function propertyId(string $propertyId): ArgBuilderInterface;
 

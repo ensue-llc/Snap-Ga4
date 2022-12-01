@@ -6,7 +6,7 @@ use Google\Analytics\Data\V1beta\Gapic\BetaAnalyticsDataGapicClient;
 use Google\Analytics\Data\V1beta\RunReportRequest;
 use Illuminate\Support\Str;
 
-class BaseBetaAnalyticsClient extends BetaAnalyticsDataGapicClient
+class BaseAnalyticsClient extends BetaAnalyticsDataGapicClient
 {
 
     public function getRunReportRequest(array $optionalArgs): RunReportRequest

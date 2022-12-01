@@ -14,32 +14,31 @@ use Google\Analytics\Data\V1beta\OrderBy;
 
 class ArgBuilder implements ArgBuilderInterface
 {
-    protected \stdClass $query;
+    protected array $query = [];
 
     public function __construct()
     {
-        $this->query = new \stdClass();
-        $this->query->args['property'] = 'properties/' . config('ga4.property_id');
+        $this->query['property'] = 'properties/' . config('ga4.property_id');
     }
 
     public function builder(): ArgBuilder
     {
-        $this->query = new \stdClass();
-        $this->query->args['property'] = 'properties/' . config('ga4.property_id');
+        $this->query = [];
+        $this->query['property'] = 'properties/' . config('ga4.property_id');
 
         return $this;
     }
 
     public function propertyId(string $propertyId): ArgBuilder
     {
-        $this->query->args['property'] = 'properties/' . $propertyId;
+        $this->query['property'] = 'properties/' . $propertyId;
 
         return $this;
     }
 
     public function dateRange(array $dateRange): ArgBuilder
     {
-        $this->query->args['dateRanges'] = [new DateRange([
+        $this->query['dateRanges'] = [new DateRange([
             'start_date' => $dateRange['start_date'],
             'end_date' => $dateRange['end_date'],
         ])];
@@ -56,7 +55,7 @@ class ArgBuilder implements ArgBuilderInterface
                 'end_date' => $dateRange['end_date'],
             ]);
         }
-        $this->query->args['dateRanges'] = $dateRangeList;
+        $this->query['dateRanges'] = $dateRangeList;
 
         return $this;
     }
@@ -68,7 +67,7 @@ class ArgBuilder implements ArgBuilderInterface
             $dimensions[] = new Dimension(['name' => $dimensionName]);
         }
         if (!empty($dimensions)) {
-            $this->query->args['dimensions'] = $dimensions;
+            $this->query['dimensions'] = $dimensions;
         }
 
         return $this;
@@ -81,7 +80,7 @@ class ArgBuilder implements ArgBuilderInterface
             $metrics[] = new Metric(['name' => $metricName]);
         }
         if (!empty($metrics)) {
-            $this->query->args['metrics'] = $metrics;
+            $this->query['metrics'] = $metrics;
         }
 
         return $this;
@@ -89,7 +88,7 @@ class ArgBuilder implements ArgBuilderInterface
 
     public function dimensionFilter(array $dimensionFilter): ArgBuilder
     {
-        $this->query->args['dimensionFilter'] = $this->filter($dimensionFilter);
+        $this->query['dimensionFilter'] = $this->filter($dimensionFilter);
 
         return $this;
     }
@@ -125,8 +124,7 @@ class ArgBuilder implements ArgBuilderInterface
     {
         return new Filter([
             'field_name' => $expression['field_name'],
-            $expression['expression'] => FilterFactory::getFilterMaker($expression['expression'])
-                ->getExpressionObject($expression['expression_data'])
+            $expression['expression'] => FilterFactory::getFilterMaker($expression['expression'])->getExpressionObject($expression['expression_data'])
         ]);
     }
 
@@ -139,40 +137,42 @@ class ArgBuilder implements ArgBuilderInterface
 
     public function keepEmptyRows(bool $isEmpty = false): static
     {
-        $this->query->args['keepEmptyRows'] = $isEmpty;
+        $this->query['keepEmptyRows'] = $isEmpty;
 
         return $this;
     }
 
     public function getArgs(): array
     {
-        return $this->query->args;
+        return $this->query;
     }
 
     public function limit(int $limit): ArgBuilder
     {
-        $this->query->args['limit'] = $limit;
+        $this->query['limit'] = $limit;
 
         return $this;
     }
 
     public function offset(int $offset): ArgBuilder
     {
-        $this->query->args['offset'] = $offset;
+        $this->query['offset'] = $offset;
 
         return $this;
     }
 
     public function metricFilter(array $metricFilter): ArgBuilder
     {
-        $this->query->args['metricFilter'] = $this->filter($metricFilter);
+        $this->query['metricFilter'] = $this->filter($metricFilter);
 
         return $this;
     }
 
     public function metricAggregations(array $aggregations): ArgBuilder
     {
-        $this->query->args['metricAggregations'] = $aggregations;
+        $this->query['metricAggregations'] = $aggregations;
+
+        return $this;
     }
 
     public function orderBy(array $orderBy, bool $desc = false): ArgBuilder
@@ -180,24 +180,25 @@ class ArgBuilder implements ArgBuilderInterface
         //order by can be one of the following: metric, dimension, pivot
         $order = new OrderBy([
             'desc' => $desc,
-            $orderBy['expression'] => OrderByFactory::getOrderByMaker($orderBy['expression'])
-                ->getExpressionObject($orderBy['expression_data'])
+            $orderBy['expression'] => OrderByFactory::getOrderByMaker($orderBy['expression'])->getExpressionObject($orderBy['expression_data'])
         ]);
         $order->setDesc($desc);
 
-        $this->query->args['orderBys'][] = $order;
+        $this->query['orderBys'][] = $order;
+
+        return $this;
     }
 
     public function currencyCode(string $currencyCode): ArgBuilder
     {
-        $this->query->args['currencyCode'] = $currencyCode;
+        $this->query['currencyCode'] = $currencyCode;
 
         return $this;
     }
 
     public function returnPropertyQuota(bool $quota): ArgBuilder
     {
-        $this->query->args['returnPropertyQuota'] = $quota;
+        $this->query['returnPropertyQuota'] = $quota;
 
         return $this;
     }
