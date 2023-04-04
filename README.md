@@ -42,7 +42,8 @@ Upto 5 reports can be run at a time
 GA::runBatchReport($inputs);
 ```
 
-## Request Body
+##
+Request Body
 ### Run single report
 Maximum Dimensions allowed: 9 <br/>
 Maximum Metrics allowed: 10

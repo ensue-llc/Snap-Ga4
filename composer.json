@@ -18,9 +18,9 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "google/analytics-data": "^0.9",
-        "laravel/framework": "^8.0 | ^9.2"
+        "laravel/framework": "^10.0"
     },
     "extra": {
         "laravel": {
