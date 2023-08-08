@@ -9,6 +9,11 @@ You can install the package using Composer. Run the following command:
 ```
 composer require ensue/ga4
 ```
+### Prerequisites
+| Package | Minimum Version |
+|---------|-----------------|
+| Laravel | 10              |
+| php     | 8.1             |
 
 ### Configuration and Language Files (Optional)
 ```
