@@ -1,16 +1,16 @@
 # Google analytics 4: Data API v1
 
-This package intends to provide analytics methods for Data API v1 [Beta Release].
+This package aims to provide methods for working with the Data API v1 of Google Analytics 4.
 
 ## Getting Started
 
-### Install
-Run the following command:
+### Installation
+You can install the package using Composer. Run the following command:
 ```
 composer require ensue/ga4
 ```
 
-### Publish config and lang (optional)
+### Configuration and Language Files (Optional)
 ```
 php artisan vendor:publish --tag=ga4
 ```
@@ -18,38 +18,36 @@ php artisan vendor:publish --tag=ga4
 ### Dependencies
 Follow the step 1 and 2 provided in
 [Google Analytics Data API (GA4) QuickStart](https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart-client-libraries).
-Once you download the service account credentials, store it in **storage** directory.
+After downloading the service account credentials, store them in the **storage** directory of your Laravel project.
 
-### ENV changes
-Add this parameters in your env file
+### Environment Changes
+Add the following parameters to your **.env** file:
 ```
 GA4_PROPERTY_ID=<YOUR-PROPERTY-ID>
 GA4_CREDENTIALS_JSON_PATH=<FILE-STORED-IN-STORAGE-DIR>
 ```
 
 # Reporting 
-Provide the "client email" the viewer access in your account user management from your admin setting
-
-## Methods
-#### Run Report
+To grant access to view the data, provide the "client email" access in your Google Analytics account's user management through your admin settings.
+## Provided methods
+#### Run single report
 ```
-GA::runReport($inputs);
+GA::runReport($attributes);
 ```
 
 #### Run Batch Report
-Upto 5 reports can be run at a time
+You can run up to 5 reports simultaneously.
 ```
-GA::runBatchReport($inputs);
+GA::runBatchReport($attributes);
 ```
 
-##
-Request Body
+## Request Body
 ### Run single report
 Maximum Dimensions allowed: 9 <br/>
 Maximum Metrics allowed: 10
 
 ```
-$inputs = [
+$attributes = [
   "date_range" => [
     "start_date" => "Y-m-d"
     "end_date" => "Y-m-d"
@@ -61,17 +59,15 @@ $inputs = [
   "offset" => integer,
   "limit" => integer,
   "metric_aggregations": [],
-  "order_bys": [],
+  "order_by": [],
   "currency_code": string,
-  "cohort_spec": [],
-  "keep_empty_rows": boolean,
   "return_property_quota": boolean
 ];
 ```
 
 ### Run Batch Report
 ```
-$inputs = [
+$attributes = [
     [
         "title" => string,
         <key value pair of single report>
@@ -82,7 +78,7 @@ $inputs = [
     ],
 ]
 ```
-#### FILTER OPTIONS:
+#### Filter options
 ```
     "filter" => [
         "field_name" => "{DIMENSION_NAME}"
@@ -109,6 +105,76 @@ $inputs = [
         "expression_data" => []
     ],
 ```
-#### EXPRESSION DATA OPTIONS
-
-#### OrderBy
+#### Expression options
+##### String filter
+```
+     "expression" => FilterExpression::STRING_FILTER,
+     "expression_data" => [
+        "match_type" => MatchType::options
+        "value" => "{VALUE}",
+        "case_sesitive" => boolean,
+     ]
+```
+##### In list filter
+```
+     "expression" => FilterExpression::IN_LIST_FILTER,
+     "expression_data" => [
+        "values" => [VALUES],
+        "case_sensitive" => boolean,
+     ]
+```
+##### Numeric filter
+```
+     "expression" => FilterExpression::NUMERIC_FILTER,
+     "expression_data" => [
+        "operation" => Operation::options,
+        "value" => [
+            "int64" => integer,
+            "double" => integer
+        ]
+     ]
+```
+##### Between Filter
+```
+     "expression" => FilterExpression::BETWEEN_FILTER,
+     "expression_data" => [
+        "from" => [
+            "int64" => integer,
+            "double" => integer
+        ],
+        "to" => [
+            "int64" => integer,
+            "double" => integer
+        ]
+     ]
+```
+#### Order by options
+##### Order by dimension
+```
+    "expression" => OrderBy::DIMENSION,
+    "expression_data" => [
+        "name" => Dimensions::NAME
+    ]
+```
+##### Order by metric
+```
+    "expression" => OrderBy::METRIC,
+    "expression_data" => [
+        "name" => Dimensions::NAME
+    ]
+```
+##### Order by pivot
+```
+    "expression" => OrderBy::PIVOT,
+    "expression_data" => [
+        "name" => Dimensions::NAME,
+        "pivotSelections" => [
+            [
+                "dimensionName" => string,
+                "dimensionValue" => string
+            ]
+        ]
+    ]
+```
+## Contributing
+Feel free to contribute :)
